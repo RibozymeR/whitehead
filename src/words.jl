@@ -23,6 +23,7 @@ Base.inv(w::Word) = -w
 
 # cutting operations
 Base.popfirst!(w::Word) = popfirst!(w.letters)
+Base.pop!(w::Word) = pop!(w.letters)
 Base.resize!(w::Word, n) = resize!(w.letters, n)
 
 # appending operations
@@ -48,7 +49,7 @@ to_string(w::Word) = isone(w) ? "ε" : join(w.letters, "·")
 Base.show(io::IO, w::Word) = print(io, to_string(w))
 Base.show(io::IO, m::MIME"text/plain", w::Word) = show(io, w)
 
-function reduce(w::Word)
+function wreduce(w::Word)
     red = one(w)
     if isone(w)
         return red
@@ -61,4 +62,13 @@ function reduce(w::Word)
         end
     end
     return red
+end
+
+function wreduce_circ(w::Word)
+    v = one(w) * w
+    while -v[begin] == v[end]
+        popfirst!(v)
+        poplast!(v)
+    end
+    return v
 end
