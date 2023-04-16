@@ -69,7 +69,7 @@ function wreduce_circ(w::Word)
     v = one(w) * w
     while -v[begin] == v[end]
         popfirst!(v)
-        poplast!(v)
+        pop!(v)
     end
     return v
 end

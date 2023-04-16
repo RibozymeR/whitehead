@@ -22,12 +22,15 @@ Base.setindex!(σ::Automorphism{T}, w::Word{T}, x::T) where {T} = σ[Letter(x)] 
 Base.show(io::IO, σ::Automorphism) = print(io, "$(typeof(σ))(" * join(("$l => $w" for (l,w) in σ.maps), ", ") * ")")
 Base.show(io::IO, m::MIME"text/plain", σ::Automorphism) = show(io, σ)
 
+"""
+`σ` applied to word `w`, the result will be freely (but not circularly) reduced
+"""
 function Base.:*(σ::Automorphism, w::Word)
     result = one(w)
     for x in w
         append!(result, σ[x])
     end
-    return result
+    return wreduce(result)
 end
 
 """
@@ -59,7 +62,7 @@ end
 Whitehead automorphism mapping every `x` in `A` to `xa`  
 If `x` and `x⁻¹` are in `A`, maps `x` to `a⁻¹·x·a`
 """
-function whitehead(A::Set{Letter{T}}, a::Letter{T}, X::Alphabet{T}) where {T}
+function whitehead(A, a::Letter{T}, X::Alphabet{T}) where {T}
     # slightly restrictive, but then we don't ever have to do wreduce
     @assert !in(a, A) "Element cannot be in set"
     @assert !in(-a, A) "Element cannot be in set"
