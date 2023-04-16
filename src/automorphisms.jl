@@ -41,3 +41,30 @@ function Base.:*(f::Automorphism, g::Automorphism)
     end
     return fg
 end
+
+"""
+Nielsen automorphism mapping `x => x·y`.
+If `prepend` is `true`, maps `x => y·x`.
+"""
+function nielsen(x::Letter{T}, y::Letter{T}, X::Alphabet{T}, prepend::Bool = false) where {T}
+    σ = Automorphism(X)
+    σ[x] = prepend ? Word([y, x]) : Word([x, y])
+    return σ
+end
+
+"""
+Whitehead automorphism mapping every `x` in `A` to `xa`  
+If `x` and `x⁻¹` are in `A`, maps `x` to `a⁻¹·x·a`
+"""
+function whitehead(A::Set{Letter{T}}, a::Letter{T}, X::Alphabet{T}) where {T}
+    # slightly restrictive, but then we don't ever have to do wreduce
+    @assert !in(a, A) "Element cannot be in set"
+    @assert !in(-a, A) "Element cannot be in set"
+    σ = Automorphism(X)
+    for x in A
+        # it would be nice if you could overload *=, so σ[x] *= Word([a]) would modidy σ[x] in-place
+        # σ[x] = wreduce(σ[x] * Word([a]))
+        push!(σ[x], a)
+    end
+    return σ
+end

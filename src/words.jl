@@ -29,6 +29,7 @@ Base.resize!(w::Word, n) = resize!(w.letters, n)
 # appending operations
 Base.append!(u::Word, v::Word) = append!(u, v.letters)
 Base.prepend!(u::Word, v::Word) = prepend!(u.letters, v)
+Base.push!(w::Word, x::Letter) = push!(w.letters, x)
 
 # miscellaneous
 Base.size(w::Word) = size(w.letters)
