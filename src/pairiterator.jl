@@ -53,4 +53,4 @@ Base.IteratorSize(::PairIterator) = Base.HasLength()
 Base.length(p::PairIterator) = length(p.iter)
 
 Base.IteratorEltype(::PairIterator) = Base.HasEltype()
-Base.eltype(::PairIterator{T}) where {T} = T
+Base.eltype(p::PairIterator) = eltype(p.iter)
