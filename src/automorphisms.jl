@@ -19,6 +19,9 @@ end
 Base.getindex(σ::Automorphism{T}, x::T) where {T} = σ[Letter(x)]
 Base.setindex!(σ::Automorphism{T}, w::Word{T}, x::T) where {T} = σ[Letter(x)] = w
 
+Base.show(io::IO, σ::Automorphism) = print(io, "$(typeof(σ))(" * join(("$l => $w" for (l,w) in σ.maps), ", ") * ")")
+Base.show(io::IO, m::MIME"text/plain", σ::Automorphism) = show(io, σ)
+
 function Base.:*(σ::Automorphism, w::Word)
     result = one(w)
     for x in w
@@ -62,9 +65,9 @@ function whitehead(A::Set{Letter{T}}, a::Letter{T}, X::Alphabet{T}) where {T}
     @assert !in(-a, A) "Element cannot be in set"
     σ = Automorphism(X)
     for x in A
-        # it would be nice if you could overload *=, so σ[x] *= Word([a]) would modidy σ[x] in-place
-        # σ[x] = wreduce(σ[x] * Word([a]))
-        push!(σ[x], a)
+        # it would be nice if you could overload *=, so σ[x] *= Word([a]) would modify σ[x] in-place
+        # push!(σ[x], a) does not work, as it will not modify σ[-x]
+        σ[x] *= Word([a])
     end
     return σ
 end
