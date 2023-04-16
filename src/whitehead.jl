@@ -4,6 +4,23 @@ import Pkg
 Pkg.add("Combinatorics")
 using Combinatorics
 
+# macro to turn our wh_reduceN into minimizer functions wh_minimizeN
+macro wh_minimize(num)
+    fun_name = Symbol("wh_minimize$num")
+    red_name = Symbol("wh_reduce$num")
+    quote
+        function $(esc(fun_name))(w::Word, X::Alphabet)
+            while (v = $(esc(red_name))(w, X)) !== nothing
+                w = v
+            end
+            return w
+        end
+    end
+end
+
+@wh_minimize 1
+@wh_minimize 2
+
 """
 Simply try out all Whitehead automorphisms until one reduces length of the given word
 """
@@ -58,9 +75,3 @@ function wh_reduce2(w::Word, X::Alphabet)
     return wh_reduce1(w, X)
 end
 
-function wh_minimize(w::Word, X::Alphabet)
-    while (v = wh_reduce2(w, X)) !== nothing
-        w = v
-    end
-    return w
-end
