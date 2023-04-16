@@ -14,8 +14,6 @@ Base.show(io::IO, l::Letter) = print(io, l.elem, l.inv ? "⁻¹" : "")
 struct Alphabet{T}
     letters::Vector{Letter{T}}
 
-    Alphabet(letters::AbstractVector{Letter{T}}) where {T} = new{T}(letters)
-
     Alphabet(generators::AbstractVector{T}) where {T} = new{T}([map(x -> Letter(x, false), generators);map(x -> Letter(x, true), generators)])
 end
 
