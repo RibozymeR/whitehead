@@ -4,9 +4,10 @@ end
 
 pairs(iter) = PairIterator(iter)
 
-# the pair iteration state contains:
-#  - iteration state
+# pair iteration state contains:
+#  - iteration state of base iterator
 #  - first element
+# TODO: deduplication
 
 function Base.iterate(pairs::PairIterator)
     i = iterate(pairs.iter)
@@ -19,12 +20,13 @@ function Base.iterate(pairs::PairIterator)
     i2 = iterate(pairs.iter, state)
     # if iterator has 1 element, no pairs
     if i2 === nothing
-        return ((elem, elem), (state, elem))
+        elem2 = elem
+    else
+        (elem2, _) = i2
     end
-    (elem2, _) = i2
 
-    # our element is (first, second)
-    # state is (first state, elem)
+    # element is (first, second)
+    # state is (first state, first elem)
     return ((elem, elem2), (state, elem))
 end
 
@@ -46,6 +48,8 @@ function Base.iterate(pairs::PairIterator, state)
         (elem2, _) = i2
     end
 
+    # element is (this one, next one)
+    # state is (next state, first elem)
     return ((elem, elem2), (nextstate, first))
 end
 

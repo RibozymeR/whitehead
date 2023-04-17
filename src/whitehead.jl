@@ -57,26 +57,19 @@ function wh_reduce2(w::Word, X::Alphabet)
     end
 
     for x in X
-        x.inv && continue # doing this rather than `if` to avoid 6 levels of nesting
         for y in X
             y == x && continue
             y == -x && continue
 
             # x => x·y
-            σ = nielsen(x, y, X, false)
-            v = wreduce_circ(σ*w)
-            if length(v) < length(w)
-                return v
-            end
-
-            # x => y·x
-            σ = nielsen(x, y, X, true)
+            σ = nielsen(x, y, X)
             v = wreduce_circ(σ*w)
             if length(v) < length(w)
                 return v
             end
         end
     end
+    # Nielsen automorphism x => y·x will be covered by x⁻¹ => x⁻¹·y⁻¹
 
     # this will test about |X| / 2^|X| automorphisms too much... not a big problem for |X| >> 1
     return wh_reduce1(w, X)

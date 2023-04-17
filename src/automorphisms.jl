@@ -49,7 +49,7 @@ function Base.:*(f::Automorphism, g::Automorphism)
 end
 
 """
-Nielsen automorphism mapping `x => x·y`.
+Nielsen automorphism mapping `x => x·y`.  
 If `prepend` is `true`, maps `x => y·x`.
 """
 function nielsen(x::Letter{T}, y::Letter{T}, X::Alphabet{T}, prepend::Bool = false) where {T}
@@ -59,7 +59,7 @@ function nielsen(x::Letter{T}, y::Letter{T}, X::Alphabet{T}, prepend::Bool = fal
 end
 
 """
-Whitehead automorphism mapping every `x` in `A` to `xa`  
+Whitehead automorphism mapping every `x` in `A` to `x·a`  
 If `x` and `x⁻¹` are in `A`, maps `x` to `a⁻¹·x·a`
 """
 function whitehead(A, a::Letter{T}, X::Alphabet{T}) where {T}
