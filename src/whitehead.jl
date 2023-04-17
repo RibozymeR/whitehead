@@ -60,14 +60,16 @@ function wh_reduce2(w::Word, X::Alphabet)
         x.inv && continue # doing this rather than `if` to avoid 6 levels of nesting
         for y in X
             y == x && continue
-            y != x && continue
+            y == -x && continue
 
+            # x => x·y
             σ = nielsen(x, y, X, false)
             v = wreduce_circ(σ*w)
             if length(v) < length(w)
                 return v
             end
 
+            # x => y·x
             σ = nielsen(x, y, X, true)
             v = wreduce_circ(σ*w)
             if length(v) < length(w)
