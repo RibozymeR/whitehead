@@ -1,6 +1,6 @@
 include("alphabets.jl")
 
-struct Word{T} <: AbstractVector{T}
+struct Word{T} <: AbstractVector{Letter{T}}
     letters::Vector{Letter{T}}
 
     Word(letters::AbstractVector{Letter{T}}) where {T} = new{T}(letters)
