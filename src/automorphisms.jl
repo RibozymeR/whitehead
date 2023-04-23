@@ -16,7 +16,7 @@ function Base.setindex!(σ::Automorphism, w::Word, x::Letter)
     σ.maps[-x] = -w
 end
 
-Base.show(io::IO, σ::Automorphism) = print(io, "$(typeof(σ))(" * join(("$l => $w" for (l,w) in σ.maps), ", ") * ")")
+Base.show(io::IO, σ::Automorphism) = print(io, "$(typeof(σ))(" * join(("$l => $w" for (l,w) in σ.maps if !l.inv), ", ") * ")")
 Base.show(io::IO, m::MIME"text/plain", σ::Automorphism) = show(io, σ)
 
 """
