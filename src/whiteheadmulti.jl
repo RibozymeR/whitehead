@@ -12,8 +12,8 @@ macro wh_minimize_multi(num)
     fun_name = Symbol("wh_minimize_multi$num")
     red_name = Symbol("wh_reduce_multi$num")
     quote
-        function $(esc(fun_name))(ws::Vector{Word}, X::Alphabet)
-            while (vs = $(esc(red_name))(w, X)[0]) !== nothing
+        function $(esc(fun_name))(ws::Vector{Word{T}}, X::Alphabet{T}) where {T}
+            while (vs = $(esc(red_name))(ws, X)[1]) !== nothing
                 ws = vs
             end
             return ws
@@ -78,8 +78,8 @@ function wh_reduce_multi2(ws::Vector{Word{T}}, X::Alphabet{T}) where {T}
         #  -> map y => x⁻¹·y  <- but this is handled by the equivalently-ranked subword y⁻¹·x⁻¹
         σ = nielsen(x, -y, X)
         vs = [σ*w for w in ws]
-        length = sum(length(v) for v in vs)
-        if length < total
+        len = sum(length(v) for v in vs)
+        if len < total
             return vs, σ
         end
     end
