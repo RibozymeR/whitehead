@@ -1,7 +1,7 @@
 include("automorphisms.jl")
 include("pairiterator.jl")
+include("powerset.jl")
 
-using Combinatorics
 using DataStructures
 
 # macro to turn our wh_reduceN_aut into minimizer functions wh_minimizeN_aut
@@ -46,7 +46,7 @@ function wh_reduce1_aut(w::Word, X::Alphabet)
 
     for a in X
         X2 = setdiff(X.letters, [a, -a])
-        for A in Combinatorics.powerset(X2)
+        for A in powerset(X2)
             # if A is empty, this does nothing, but that's only 1/2^|X| of the iterations
             @test_aut whitehead(A, a, X) w
         end
