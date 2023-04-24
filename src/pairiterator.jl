@@ -1,5 +1,5 @@
-struct PairIterator{T}
-    iter::T
+struct PairIterator
+    iter
 end
 
 pairs(iter) = PairIterator(iter)

@@ -1,9 +1,6 @@
 include("automorphisms.jl")
 include("pairiterator.jl")
 
-import Pkg
-Pkg.add("Combinatorics")
-Pkg.add("DataStructures")
 using Combinatorics
 using DataStructures
 
