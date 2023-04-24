@@ -8,6 +8,8 @@ struct Word{T} <: AbstractVector{Letter{T}}
     Word(letters::AbstractVector{T}) where {T} = new{T}(map(x -> Letter(x), letters))
 end
 
+word(letters::AbstractVector{Letter{T}}) where {T} = wreduce(Word(letters))
+
 # Base.IndexStyle(::Type{<:AbstractWord}) = IndexLinear()
 
 # things to do with unity
