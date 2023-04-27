@@ -36,7 +36,7 @@ function wh_reduce_multi1(ws::Vector{Word{T}}, X::Alphabet{T}) where {T}
         for A in powerset(X2)
             # if A is empty, this does nothing, but that's only 1/2^|X| of the iterations
             σ = whitehead(A, a, X)
-            vs = [σ*w for w in ws]
+            vs = [σ(w) for w in ws]
             len = sum(length(v) for v in vs)
             if len < total
                 return vs, σ
@@ -74,7 +74,7 @@ function wh_reduce_multi2(ws::Vector{Word{T}}, X::Alphabet{T}) where {T}
         #  -> map x => x·y⁻¹
         #  -> map y => x⁻¹·y  <- but this is handled by the equivalently-ranked subword y⁻¹·x⁻¹
         σ = nielsen(x, -y, X)
-        vs = [σ*w for w in ws]
+        vs = [σ(w) for w in ws]
         len = sum(length(v) for v in vs)
         if len < total
             return vs, σ

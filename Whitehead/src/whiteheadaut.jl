@@ -13,7 +13,7 @@ macro wh_minimize_aut(num)
             σ = Automorphism(X)
             while (τ = $(esc(red_name))(w, X)) !== nothing
                 σ = τ * σ
-                w = τ * w
+                w = τ(w)
             end
             return σ
         end
@@ -29,8 +29,8 @@ macro test_aut(expr, w)
     quote
         σ = $(esc(expr))
         # circular reduction automorphisms get rather long, so we only compute it when necessary
-        if length(wreduce_circ(σ * $(esc(w)))) < length($(esc(w)))
-            return reduction(σ * $(esc(w)), X) * σ
+        if length(wreduce_circ(σ($(esc(w))))) < length($(esc(w)))
+            return reduction(σ($(esc(w))), X) * σ
         end
     end
 end

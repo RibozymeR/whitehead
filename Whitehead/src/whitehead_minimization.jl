@@ -35,7 +35,7 @@ function wh_reduce1(w::Word, X::Alphabet)
         for A in powerset(X2)
             # if A is empty, this does nothing, but that's only 1/2^|X| of the iterations
             σ = whitehead(A, a, X)
-            v = wreduce_circ(σ*w)
+            v = wreduce_circ(σ(w))
             if length(v) < length(w)
                 return v
             end
@@ -60,7 +60,7 @@ function wh_reduce2(w::Word, X::Alphabet)
 
             # x => x·y
             σ = nielsen(x, y, X)
-            v = wreduce_circ(σ*w)
+            v = wreduce_circ(σ(w))
             if length(v) < length(w)
                 return v
             end
@@ -95,7 +95,7 @@ function wh_reduce3(w::Word, X::Alphabet)
         #  -> map x => x·y⁻¹
         #  -> map y => x⁻¹·y  <- but this is handled by the equivalently-ranked subword y⁻¹·x⁻¹
         σ = nielsen(x, -y, X)
-        v = wreduce_circ(σ*w)
+        v = wreduce_circ(σ(w))
         if length(v) < length(w)
             return v
         end

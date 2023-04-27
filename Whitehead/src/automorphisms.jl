@@ -20,7 +20,7 @@ Base.show(io::IO, m::MIME"text/plain", σ::Automorphism) = show(io, σ)
 """
 `σ` applied to word `w`, the result will be freely (but not circularly) reduced
 """
-function Base.:*(σ::Automorphism, w::Word)
+function (σ::Automorphism)(w::Word)
     result = one(w)
     for x in w
         append!(result, σ[x])
@@ -31,13 +31,13 @@ end
 """
 `f , g -> λx.f(g(x))`
 
-`(f*g)*w == f*(g*w)`
+`(f*g)(w) == f(g(w))`
 """
 function Base.:*(f::Automorphism, g::Automorphism)
     fg = copy(g)
     for (x, w) in fg.maps
         if !x.inv # only once for each letter
-            fg[x] = f*w
+            fg[x] = f(w)
         end
     end
     return fg
@@ -85,7 +85,7 @@ function reduction(w::Word, X::Alphabet)
 
         # x -> x1·x2·...·xk
         # turn into -y·x1·x2·...·xk·y if x (or x⁻¹) is in (current sub)word and any xi != y
-        letters = Set(@view w[first:last])
+        letters = @view w[first:last]
         for x in X
             # for generator x, can do this for x or for -x; here, we choose x
             # maybe it's better to construct letters accordingly and iterate over that? hm.
