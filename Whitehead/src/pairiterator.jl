@@ -2,7 +2,14 @@ struct PairIterator
     iter
 end
 
-pairs(iter) = PairIterator(iter)
+"""
+Returns a PairIterator over the given iterator  
+This will iterate _cyclically_ through all pairs of consecutive elements of iter  
+
+Example:  
+collect(cyclic_pairs([1, 2, 3])) = [(1,2), (2,3), (3,1)]
+"""
+cyclic_pairs(iter) = PairIterator(iter)
 
 # pair iteration state contains:
 #  - iteration state of base iterator
@@ -57,4 +64,4 @@ Base.IteratorSize(::PairIterator) = Base.HasLength()
 Base.length(p::PairIterator) = length(p.iter)
 
 Base.IteratorEltype(::PairIterator) = Base.HasEltype()
-Base.eltype(p::PairIterator) = eltype(p.iter)
+Base.eltype(p::PairIterator) = Tuple{eltype(p.iter), eltype(p.iter)}
