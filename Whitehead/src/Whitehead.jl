@@ -10,4 +10,7 @@ include("whitehead_minimization.jl")
 include("whiteheadaut.jl")
 include("whiteheadmulti.jl")
 
+# just for testing
+wh_name() = "Whitehead"
+
 end # module Whitehead
