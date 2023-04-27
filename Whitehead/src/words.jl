@@ -1,5 +1,3 @@
-include("alphabets.jl")
-
 struct Word{T} <: AbstractVector{Letter{T}}
     letters::Vector{Letter{T}}
 

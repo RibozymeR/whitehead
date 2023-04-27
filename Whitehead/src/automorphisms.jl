@@ -1,5 +1,3 @@
-include("words.jl")
-
 struct Automorphism{T}
     maps::Dict{Letter{T}, Word{T}}
 
