@@ -42,7 +42,7 @@ function wh_reduce1(w::Word, X::Alphabet)
         end
     end
 
-    return nothinga
+    return nothing
 end
 
 """
