@@ -10,6 +10,7 @@ powerset(A) = Powerset(A)
 # iteration state contains:
 #  - length(a) booleans
 #  - one more for end detection
+# TODO: special case for length(A) small -> use integer counting (can convert UInt to BitVector)
 
 """
 WARNING: this will mutate iterator state
