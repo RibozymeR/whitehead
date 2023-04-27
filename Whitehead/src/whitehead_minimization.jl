@@ -82,7 +82,7 @@ function wh_reduce3(w::Word, X::Alphabet)
 
     subwords = DefaultDict{Tuple{Letter, Letter}, Integer}(0)
 
-    for (x, y) in pairs(w)
+    for (x, y) in cyclic_pairs(w)
         x == y && continue
         x == -y && continue
         

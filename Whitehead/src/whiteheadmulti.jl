@@ -60,7 +60,7 @@ function wh_reduce_multi2(ws::Vector{Word{T}}, X::Alphabet{T}) where {T}
     subwords = DefaultDict{Tuple{Letter, Letter}, Integer}(0)
 
     for w in ws
-        for (x, y) in pairs(w)
+        for (x, y) in cyclic_pairs(w)
             x == y && continue
             x == -y && continue
             
