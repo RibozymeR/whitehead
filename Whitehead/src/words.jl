@@ -3,7 +3,7 @@ struct Word{T} <: AbstractVector{Letter{T}}
 
     Word(letters::AbstractVector{Letter{T}}) where {T} = new{T}(letters)
     
-    Word(letters::AbstractVector{T}) where {T} = new{T}(map(x -> Letter(x), letters))
+    Word(letters::AbstractVector{T}) where {T} = new{T}(map(Letter, letters))
 end
 
 word(letters::AbstractVector{Letter{T}}) where {T} = wreduce(Word(letters))
@@ -24,7 +24,10 @@ Base.inv(w::Word) = -w
 # cutting operations
 Base.popfirst!(w::Word) = popfirst!(w.letters)
 Base.pop!(w::Word) = pop!(w.letters)
-Base.resize!(w::Word, n) = resize!(w.letters, n)
+function Base.resize!(w::Word, n)::Word
+    resize!(w.letters, n)
+    return w
+end
 
 # appending operations
 Base.append!(u::Word, v::Word) = append!(u, v.letters)
@@ -39,11 +42,7 @@ Base.@propagate_inbounds function Base.setindex!(w::Word, letter, idx::Int)
     return w.letters[idx] = letter
 end
 # this is needed for repeat() to work
-function Base.similar(w::Word, ::Type, dims::Base.Dims{1})
-    sim = one(w)
-    resize!(sim, first(dims)) # note: resize! returns Vector, CANNOT return this
-    return sim
-end
+Base.similar(w::Word, ::Type, dims::Base.Dims{1}) = resize!(one(w), first(dims))
 
 to_string(w::Word) = isone(w) ? "ε" : join(w.letters, "·")
 
